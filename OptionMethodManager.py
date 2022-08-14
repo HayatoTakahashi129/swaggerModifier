@@ -19,7 +19,7 @@ class OptionMethodManager(SwaggerManager):
     def __get_response(self, path: str) -> dict:
         methods: List[str] = self.__get_all_methods(path)
         headers: List[str] = default_headers
-        if self.has_security(path, methods[0]):
+        if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
         return {
