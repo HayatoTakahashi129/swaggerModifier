@@ -1,16 +1,29 @@
-# This is a sample Python script.
+from argparse import ArgumentParser
 
-# Press Ctrl+F5 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import yaml
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press F9 to toggle the breakpoint.
+import config
 
 
-# Press the green button in the gutter to run the script.
+def get_input_yaml(yaml_path: str) -> dict:
+    with open(yaml_path, 'r') as file:
+        try:
+            swagger_dict: dict = yaml.safe_load(file)
+        except yaml.YAMLError as error:
+            print(error)
+            raise error
+    return swagger_dict
+
+
+def get_options():
+    argparser = ArgumentParser()
+    argparser.add_argument('-i', '--input', type=str, help='Set input swagger file path to create.')
+    argparser.add_argument('-o', '--output', type=str, help='Set output file path.')
+    argparser.add_argument('-e''--env', type=str, default='dev', help='Set environment to create swagger file')
+    return argparser.parse_args()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    args = get_options()
+    config.ENV = args.env
+    swagger = get_input_yaml(args.input)
