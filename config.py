@@ -32,6 +32,8 @@ def get_parameter(param: str) -> str:
     param_key: str = SERVICE_NAME + '/' + ENV + '/' + param
     response = ssm.get_parameter(Names=[param_key], WithDecryption=True)
     result = response['Parameters'][0]['Value']
+    if result is None:
+        raise ValueError(f'You entered unexist parameter. SERVICE=${SERVICE_NAME} ENV=${ENV} PARAM=${param}')
 
     __param_cache[param] = result
     return result
