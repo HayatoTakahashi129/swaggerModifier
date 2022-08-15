@@ -3,8 +3,8 @@ from argparse import ArgumentParser
 import yaml
 
 import config
-from AdditionalIntegrationManager import AdditionalIntegrationManager
-from OptionMethodManager import OptionMethodManager
+from components.AdditionalIntegrationManager import AdditionalIntegrationManager
+from components.OptionMethodManager import OptionMethodManager
 
 
 def get_input_yaml(yaml_path: str) -> dict:

@@ -1,7 +1,7 @@
 from typing import List
 
 import config
-from SwaggerManager import SwaggerManager
+from common.SwaggerManager import SwaggerManager
 
 security_schema_name = 'ID-Token'
 security_integration = {
