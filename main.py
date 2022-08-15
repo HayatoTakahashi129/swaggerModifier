@@ -1,4 +1,4 @@
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 
 import yaml
 
@@ -30,14 +30,32 @@ def get_options():
     argparser.add_argument('--serviceName', type=str,
                            help='Set service name to create swagger file. default value is retrieve from info.title '
                                 'in swagger file')
+    argparser.add_argument('--awsAccess', type=str,
+                           helop='Set AWS IAM Access Key to retrieve data from SSM parameter store.')
+    argparser.add_argument('--awsSecret', type=str,
+                           helop='Set AWS IAM Secret Access Key to retrieve data from SSM parameter store.')
+    argparser.add_argument('--awsToken', type=str,
+                           helop='Set AWS IAM Access Session Token to retrieve data from SSM parameter store. This is required when you IAM is using MFA.')
+
     return argparser.parse_args()
+
+
+def set_value_to_config(args: Namespace):
+    config.ENV = args.env
+    if args.serviceName is not None:
+        config.SERVICE_NAME = args.serviceName
+    if args.awsAccess is not None:
+        config.AWS_ACCESS_KEY = args.awsAccess
+    if args.awsSecret is not None:
+        config.AWS_SECRET_ACCESS_KEY = args.awsSecret
+    if args.awsToken is not None:
+        config.AWS_ACCESS_SESSION_TOKEN = args.awsToken
 
 
 if __name__ == '__main__':
     args = get_options()
-    config.ENV = args.env
-    if args.serviceName is not None:
-        config.SERVICE_NAME = args.serviceName
+    set_value_to_config(args)
+
     swagger = get_input_yaml(args.input)
     optionManager = OptionMethodManager(swagger)
     swagger = optionManager.add_option_methods()
