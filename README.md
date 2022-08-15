@@ -49,6 +49,8 @@ You can also get helps from command line by executing `python main.py -h`.
 * `-i` or `--input` is required for input swagger file path.
 * `-o` or `--output` is required for output swagger file path.
 * `-e` or `--env` is environment for creating output swagger file. Default is `dev`.
+* `--serviceName` is service name for creating output swagger file.
+  * default value is `info.title` in swagger file.
 
 ## Author
 
