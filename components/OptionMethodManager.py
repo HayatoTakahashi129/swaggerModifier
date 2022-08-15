@@ -1,5 +1,6 @@
 from typing import List
 
+import config
 from common.SwaggerManager import SwaggerManager
 
 default_headers = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
@@ -22,6 +23,7 @@ class OptionMethodManager(SwaggerManager):
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
+        service_fqdn: str = config.get_parameter('SERVICE_FQDN')
         return {
             'description': 'common access control allows.',
             'headers': {
@@ -41,8 +43,7 @@ class OptionMethodManager(SwaggerManager):
                     'schema': {
                         'type': 'string'
                     },
-                    # fixme: get origin FQDN
-                    'description': '*'
+                    'description': f'{service_fqdn}'
                 }
             }
         }

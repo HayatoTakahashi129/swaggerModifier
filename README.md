@@ -30,8 +30,8 @@ There is a lot of requirements to use.
 
 #### System Manager
 
-* You need to set `${serviceName}/${env}/serviceFQDN` as API-Gateway FQDN.
-* You need to set `${serviceName}/${env}/Cognito-userpool-id`
+* You need to set `${serviceName}/${env}/SERVICE_FQDN` as API-Gateway FQDN.
+* You need to set `${serviceName}/${env}/COGNITO_USERPOOL_ID`
   as [userpool id in Cognito](https://bobbyhadz.com/blog/aws-cognito-get-identity-pool-id)
 
 #### Lambda

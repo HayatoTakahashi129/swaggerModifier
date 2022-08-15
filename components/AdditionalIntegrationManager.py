@@ -4,17 +4,23 @@ import config
 from common.SwaggerManager import SwaggerManager
 
 security_schema_name = 'ID-Token'
-security_integration = {
-    'x-amazon-apigateway-authtype': 'cognito_user_pools',
-    'x-amazon-apigateway-authorizer': {
-        'type': 'cognito_user_pools',
-        'providerARNs': [
-            # fixme: change cognito id to variable
-            'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${AWS::Region}_EICVnWjIy'
-        ],
-        'identityValidationExpression': '.*'
+
+
+def get_security_integration() -> dict:
+    cognito_id = config.get_parameter('COGNITO_USERPOOL_ID')
+    return {
+        'x-amazon-apigateway-authtype': 'cognito_user_pools',
+        'x-amazon-apigateway-authorizer': {
+            'type': 'cognito_user_pools',
+            'providerARNs': [
+                'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${AWS::Region}_{cognito}'.replace(
+                    '{cognito}', cognito_id)
+            ],
+            'identityValidationExpression': '.*'
+        }
     }
-}
+
+
 default_headers = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token']
 
 
@@ -34,6 +40,7 @@ class AdditionalIntegrationManager(SwaggerManager):
         headers = default_headers
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
+        service_fqdn = config.get_parameter('SERVICE_FQDN')
         return {
             'x-amazon-apigateway-integration': {
                 'responses': {
@@ -44,8 +51,7 @@ class AdditionalIntegrationManager(SwaggerManager):
                                 headers=','.join(headers)),
                             'method.response.header.Access-Control-Allow-Methods': "'{methods}'".format(
                                 methods=','.join(methods)),
-                            # fixme: set origin fqdn
-                            'method.response.header.Access-Control-Allow-Origin': "'*'"
+                            'method.response.header.Access-Control-Allow-Origin': f"'{service_fqdn}'"
                         },
                         'responseTemplates': {
                             'application/json': '{}'
@@ -88,6 +94,7 @@ class AdditionalIntegrationManager(SwaggerManager):
     # add integration for lambda
 
     def __add_security_integration(self):
+        security_integration: dict = get_security_integration()
         self.swagger['components']['securitySchemes'][security_schema_name].update(security_integration)
 
     def add_amazon_apigateway_integration(self) -> dict:
