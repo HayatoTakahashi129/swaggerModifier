@@ -2,7 +2,7 @@ openapi: 3.0.1
 x-stoplight:
   id: u5r61hsdu0tsj
 info:
-  title: todoDemo
+  title: todoDemo2
   version: "1.0"
   description: |-
     This is a sample todo listing project.

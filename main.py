@@ -1,9 +1,11 @@
+import sys
 from argparse import ArgumentParser, Namespace
 from collections import OrderedDict
 
 import yaml
 
 import config
+from common.ErrorHandler import show_error
 from components.AdditionalIntegrationManager import AdditionalIntegrationManager
 from components.OptionMethodManager import OptionMethodManager
 
@@ -16,8 +18,15 @@ def get_input_yaml(yaml_path: str) -> dict:
         try:
             swagger_dict: dict = yaml.safe_load(file)
         except yaml.YAMLError as error:
-            print(error)
+            if hasattr(error, 'problem_mark'):
+                mark = error.problem_mark
+                print(f'Error position: ({mark.line + 1}:{mark.column + 1})')
+            show_error('Please set valid yaml file.')
+        except FileNotFoundError:
+            show_error('I can NOT find input swagger file.')
+        except Exception as error:
             raise error
+
     return swagger_dict
 
 
@@ -65,3 +74,5 @@ if __name__ == '__main__':
     additionalIntegrationManager = AdditionalIntegrationManager(swagger)
     swagger = additionalIntegrationManager.add_amazon_apigateway_integration()
     write_swagger(swagger, args.output)
+    print('Succeed to Create output swagger file.')
+    sys.exit(0)

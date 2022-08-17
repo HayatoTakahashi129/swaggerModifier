@@ -1,7 +1,9 @@
-import pprint
 from typing import Dict
 
 import boto3
+from botocore.exceptions import ClientError
+
+from common.ErrorHandler import show_error
 
 ENV: str = 'dev'
 SERVICE_NAME: str = None
@@ -31,8 +33,12 @@ def get_parameter(param: str) -> str:
     iam_access_info = __create_iam_configure()
     ssm = boto3.client('ssm', **iam_access_info)
     param_key: str = '/' + SERVICE_NAME + '/' + ENV + '/' + param
-    response = ssm.get_parameter(Name=param_key, WithDecryption=True)
-    pprint.pprint(response)
+    try:
+        response = ssm.get_parameter(Name=param_key, WithDecryption=True)
+    except ClientError as error:
+        print(f"Please put parameter to AWS SSM Parameter Store.")
+        print(f'Needed parameter: {param_key}')
+        show_error(error.response['Error']['Code'])
     result = response['Parameter']['Value']
     if result is None:
         raise ValueError(f'You entered unexist parameter. SERVICE=${SERVICE_NAME} ENV=${ENV} PARAM=${param}')
