@@ -1,4 +1,5 @@
 from argparse import ArgumentParser, Namespace
+from collections import OrderedDict
 
 import yaml
 
@@ -8,6 +9,9 @@ from components.OptionMethodManager import OptionMethodManager
 
 
 def get_input_yaml(yaml_path: str) -> dict:
+    yaml.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+                         lambda loader, node: OrderedDict(loader.construct_pairs(node)))
+
     with open(yaml_path, 'r') as file:
         try:
             swagger_dict: dict = yaml.safe_load(file)
@@ -19,7 +23,7 @@ def get_input_yaml(yaml_path: str) -> dict:
 
 def write_swagger(swagger_dict: dict, yaml_path: str):
     with open(yaml_path, 'w') as file:
-        yaml.dump(swagger_dict, file)
+        yaml.safe_dump(swagger_dict, file, sort_keys=False)
 
 
 def get_options():
