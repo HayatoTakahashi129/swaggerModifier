@@ -1,7 +1,5 @@
 from typing import List
 
-import config
-
 service_methods = ['get', 'post']
 
 
@@ -21,11 +19,6 @@ class SwaggerManager:
 
     def get_tags(self, path: str, method: str) -> List[str]:
         return list(self.swagger['paths'][path][method]['tags'])
-
-    def get_service_name(self) -> str:
-        if config.SERVICE_NAME is not None:
-            return config.SERVICE_NAME
-        return self.swagger['info']['title']
 
     def has_security(self, path: str, method: str) -> bool:
         security: list = list(self.swagger['paths'][path][method]['security'])

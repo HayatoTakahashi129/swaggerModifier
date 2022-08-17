@@ -1,3 +1,4 @@
+import pprint
 from typing import Dict
 
 import boto3
@@ -29,9 +30,10 @@ def get_parameter(param: str) -> str:
 
     iam_access_info = __create_iam_configure()
     ssm = boto3.client('ssm', **iam_access_info)
-    param_key: str = SERVICE_NAME + '/' + ENV + '/' + param
-    response = ssm.get_parameter(Names=[param_key], WithDecryption=True)
-    result = response['Parameters'][0]['Value']
+    param_key: str = '/' + SERVICE_NAME + '/' + ENV + '/' + param
+    response = ssm.get_parameter(Name=param_key, WithDecryption=True)
+    pprint.pprint(response)
+    result = response['Parameter']['Value']
     if result is None:
         raise ValueError(f'You entered unexist parameter. SERVICE=${SERVICE_NAME} ENV=${ENV} PARAM=${param}')
 

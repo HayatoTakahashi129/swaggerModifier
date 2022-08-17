@@ -1,0 +1,297 @@
+components:
+  responses:
+    System-Error-Response:
+      content:
+        application/json:
+          examples:
+            Ssytem Error happen:
+              value:
+                message: Something went wrong
+          schema:
+            $ref: '#/components/schemas/Message'
+      description: This is common response when internal server error is happen
+    Token-Expired-Response:
+      content:
+        application/json:
+          examples:
+            example-1:
+              value:
+                message: Unauthorized.
+          schema:
+            $ref: '#/components/schemas/Message'
+      description: Example response
+  schemas:
+    400ErrorType:
+      description: 'This is common response object when 400 error is happen.
+
+        This key shows what kind of error happened in back end server.'
+      properties:
+        type:
+          enum:
+          - VALIDATION_ERROR
+          - BUISINESS_ERROR
+          type: string
+      required:
+      - type
+      title: 400-Error-Type
+      type: object
+      x-stoplight:
+        id: bn5wwmit3lagt
+    Id:
+      description: this is common Id key for this project.
+      properties:
+        id:
+          example: '16592316588600418692584385336523'
+          maxLength: 32
+          minLength: 32
+          pattern: '[0-9]+'
+          type: string
+      required:
+      - id
+      title: Id
+      type: object
+      x-stoplight:
+        id: hpf9bbbrwfmjm
+    Message:
+      description: this is common response object for message.
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: Message
+      type: object
+      x-stoplight:
+        id: eylve8mfguv0x
+    Todo:
+      description: Basic todo model
+      properties:
+        description:
+          example: 'this is sample description. '
+          maxLength: 1024
+          minLength: 0
+          type: string
+        dueDate:
+          example: '2022-07-07T03:00:00+09:00'
+          format: date-time
+          type: string
+        title:
+          example: sample title
+          maxLength: 128
+          minLength: 1
+          type: string
+      required:
+      - title
+      - dueDate
+      title: Todo
+      type: object
+      x-examples: {}
+  securitySchemes:
+    ID-Token:
+      description: Id token provided by cognito.
+      in: header
+      name: Authorization
+      type: apiKey
+      x-amazon-apigateway-authorizer:
+        identityValidationExpression: .*
+        providerARNs:
+        - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${AWS::Region}_WKypnxDvl
+        type: cognito_user_pools
+      x-amazon-apigateway-authtype: cognito_user_pools
+info:
+  contact:
+    email: hayato.012995@gmail.com
+    name: Hayato Takahashi
+  description: 'This is a sample todo listing project.
+
+    We can create, edit, delete the todos across all platform including pc and smartphone.
+
+    this project has authentications so, you can share toso list all your devices.'
+  title: todoDemo
+  version: '1.0'
+openapi: 3.0.1
+paths:
+  /todo/add:
+    options:
+      description: ''
+      operationId: options--todo-add
+      responses:
+        '200':
+          description: common access control allows.
+          headers:
+            Access-Control-Allow-Headers:
+              description: Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,Authorization,Authorization
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              description: POST,OPTIONS
+              schema:
+                type: string
+            Access-Control-Allow-Origin:
+              description: https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com
+              schema:
+                type: string
+      security: []
+      summary: ''
+      x-amazon-apigateway-integration:
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,Authorization,Authorization'''
+              method.response.header.Access-Control-Allow-Methods: '''POST,OPTIONS'''
+              method.response.header.Access-Control-Allow-Origin: '''https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com'''
+            responseTemplates:
+              application/json: '{}'
+            statusCode: '200'
+        type: mock
+    post:
+      description: Create a new todo.
+      operationId: post-todo-add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+        description: Post the necessary fields for the API to create a new todo.
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    message: add new Todo completedly.
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: Todo created
+        '400':
+          content:
+            application/json:
+              examples:
+                title is over 128 charcters.:
+                  value:
+                    fields:
+                      title: title is need to be lower than 128.
+                    message: string
+                    type: VALIDATION_ERROR
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/400ErrorType'
+                - $ref: '#/components/schemas/Message'
+                - properties:
+                    fields:
+                      properties:
+                        description:
+                          example: description is required.
+                          type: string
+                        dueDate:
+                          example: dueDate is required.
+                          type: string
+                        title:
+                          example: title is required.
+                          type: string
+                      type: object
+                  type: object
+          description: Bad Request
+        '401':
+          $ref: '#/components/responses/Token-Expired-Response'
+        '500':
+          $ref: '#/components/responses/System-Error-Response'
+      security:
+      - ID-Token: []
+      summary: Create new Todo.
+      tags:
+      - Todo
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        passthroughBehavior: when_no_templates
+        type: aws_proxy
+        uri: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:sampleTodoApiTodo-dev/invocations
+  /todos:
+    get:
+      description: Get todo lists generated by user.
+      operationId: get-todos
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                  - description: time test
+                    dueDate: '2022-07-07T03:00:00+09:00'
+                    id: '16592316588600418692584385336235'
+                    title: test2
+                  - description: time test2
+                    dueDate: '2022-07-07T03:00:00+09:00'
+                    id: '16592320719279718974216523989824'
+                    title: test2
+                  - description: ''
+                    dueDate: '2023-01-14T03:00:00+09:00'
+                    id: '16600554483124698284404752367598'
+                    title: sample empty description
+              schema:
+                items:
+                  allOf:
+                  - $ref: '#/components/schemas/Id'
+                  - $ref: '#/components/schemas/Todo'
+                type: array
+          description: Succed to get todo list.
+        '401':
+          $ref: '#/components/responses/Token-Expired-Response'
+        '500':
+          $ref: '#/components/responses/System-Error-Response'
+      security:
+      - ID-Token: []
+      summary: Get todo list
+      tags:
+      - Todo
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        passthroughBehavior: when_no_templates
+        type: aws_proxy
+        uri: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:sampleTodoApiTodo-dev/invocations
+    options:
+      description: ''
+      operationId: options--todos
+      responses:
+        '200':
+          description: common access control allows.
+          headers:
+            Access-Control-Allow-Headers:
+              description: Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,Authorization
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              description: GET,OPTIONS
+              schema:
+                type: string
+            Access-Control-Allow-Origin:
+              description: https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com
+              schema:
+                type: string
+      security: []
+      summary: ''
+      x-amazon-apigateway-integration:
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        responses:
+          default:
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,Authorization'''
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+              method.response.header.Access-Control-Allow-Origin: '''https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com'''
+            responseTemplates:
+              application/json: '{}'
+            statusCode: '200'
+        type: mock
+security:
+- ID-Token: []
+servers:
+- url: http://localhost:3000
+x-stoplight:
+  id: u5r61hsdu0tsj

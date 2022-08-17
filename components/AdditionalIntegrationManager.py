@@ -74,8 +74,8 @@ class AdditionalIntegrationManager(SwaggerManager):
         tags: List[str] = self.get_tags(path, method)
         # use first set tags. fixme: change to use tag which is define as service tag.
         service_tag: str = tags[0]
-        service_name: str = self.get_service_name()
-        return service_name + '/' + service_tag + '-' + config.ENV
+        service_name: str = config.SERVICE_NAME
+        return service_name + 'Api' + service_tag + '-' + config.ENV  # amplify can only enter alphanumeric.
 
     def __add_integration_to_service_method(self, path: str):
         methods: List[str] = self.get_all_contained_service_method(path)

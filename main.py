@@ -41,9 +41,11 @@ def get_options():
     return argparser.parse_args()
 
 
-def set_value_to_config(args: Namespace):
+def set_value_to_config(args: Namespace, swagger_dict: dict):
     config.ENV = args.env
     config.SERVICE_NAME = args.serviceName
+    if config.SERVICE_NAME is None:
+        config.SERVICE_NAME = swagger_dict['info']['title']
     config.AWS_ACCESS_KEY = args.awsAccess
     config.AWS_SECRET_ACCESS_KEY = args.awsSecret
     config.AWS_ACCESS_SESSION_TOKEN = args.awsToken
@@ -51,9 +53,9 @@ def set_value_to_config(args: Namespace):
 
 if __name__ == '__main__':
     args = get_options()
-    set_value_to_config(args)
-
     swagger = get_input_yaml(args.input)
+    set_value_to_config(args, swagger)
+
     optionManager = OptionMethodManager(swagger)
     swagger = optionManager.add_option_methods()
     additionalIntegrationManager = AdditionalIntegrationManager(swagger)
