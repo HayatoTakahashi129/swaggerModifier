@@ -48,10 +48,16 @@ class OptionMethodManager(SwaggerManager):
             }
         }
 
+    def __get_tag(self, path: str) -> str:
+        first_method: str = self.get_all_contained_service_method(path)[0]
+        first_tag: str = self.get_tags(path, first_method)[0]
+        return first_tag
+
     def add_option_methods(self) -> dict:
         path_list: List[str] = self.get_all_paths()
         for path in path_list:
             response: dict = self.__get_response(path)
+            tag: str = self.__get_tag(path)
             path_line = path.replace('/', '-')
             self.swagger['paths'][path]['options'] = {
                 'summary': '',
@@ -60,6 +66,7 @@ class OptionMethodManager(SwaggerManager):
                     '200': response
                 },
                 'description': '',
+                'tags': [tag],
                 'security': [],
                 # no amazon api-gateway integrations
             }

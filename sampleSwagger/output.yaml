@@ -133,6 +133,8 @@ paths:
                 type: string
       security: []
       summary: ''
+      tags:
+      - Todo
       x-amazon-apigateway-integration:
         passthroughBehavior: when_no_match
         requestTemplates:
@@ -275,6 +277,8 @@ paths:
                 type: string
       security: []
       summary: ''
+      tags:
+      - Todo
       x-amazon-apigateway-integration:
         passthroughBehavior: when_no_match
         requestTemplates:
