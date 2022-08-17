@@ -1,13 +1,14 @@
 from typing import List
 
 import config
+from common.ErrorHandler import show_error
 from common.SwaggerManager import SwaggerManager
 
 security_schema_name = 'ID-Token'
 
 
 def get_security_integration() -> dict:
-    cognito_id = config.get_parameter('COGNITO_USERPOOL_ID')
+    cognito_id = config.get_parameter('COGNITO_USERPOOL_ID2')
     return {
         'x-amazon-apigateway-authtype': 'cognito_user_pools',
         'x-amazon-apigateway-authorizer': {
@@ -94,11 +95,15 @@ class AdditionalIntegrationManager(SwaggerManager):
     # add integration for lambda
 
     def __add_security_integration(self):
+        if security_schema_name not in self.swagger['components']['securitySchemas']:
+            show_error(f'Please set {security_schema_name} in `components.securitySchemas` in input swagger file.')
         security_integration: dict = get_security_integration()
         self.swagger['components']['securitySchemes'][security_schema_name].update(security_integration)
 
     def add_amazon_apigateway_integration(self) -> dict:
-        self.__add_security_integration()
+        if 'securitySchemas' in self.swagger['components']:
+            if security_schema_name in self.swagger['components']['securitySchemas']:
+                self.__add_security_integration()
 
         path_list: List[str] = self.get_all_paths()
         for path in path_list:

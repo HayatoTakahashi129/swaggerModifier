@@ -2,7 +2,7 @@ openapi: 3.0.1
 x-stoplight:
   id: u5r61hsdu0tsj
 info:
-  title: todoDemo
+  title: todoDemo2
   version: '1.0'
   description: 'This is a sample todo listing project.
 
@@ -274,7 +274,7 @@ components:
       x-amazon-apigateway-authorizer:
         type: cognito_user_pools
         providerARNs:
-        - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${AWS::Region}_WKypnxDvl
+        - arn:aws:cognito-idp:ap-northeast-1:276161490400:userpool/ap-northeast-1_EICVnWjIy
         identityValidationExpression: .*
   responses:
     System-Error-Response:
