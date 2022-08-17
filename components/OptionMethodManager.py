@@ -1,5 +1,6 @@
 from typing import List
 
+import config
 from common.SwaggerManager import SwaggerManager
 
 default_headers = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
@@ -22,6 +23,7 @@ class OptionMethodManager(SwaggerManager):
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
+        service_fqdn: str = config.get_parameter('SERVICE_FQDN')
         return {
             'description': 'common access control allows.',
             'headers': {
@@ -41,16 +43,21 @@ class OptionMethodManager(SwaggerManager):
                     'schema': {
                         'type': 'string'
                     },
-                    # fixme: get origin FQDN
-                    'description': '*'
+                    'description': f'{service_fqdn}'
                 }
             }
         }
+
+    def __get_tag(self, path: str) -> str:
+        first_method: str = self.get_all_contained_service_method(path)[0]
+        first_tag: str = self.get_tags(path, first_method)[0]
+        return first_tag
 
     def add_option_methods(self) -> dict:
         path_list: List[str] = self.get_all_paths()
         for path in path_list:
             response: dict = self.__get_response(path)
+            tag: str = self.__get_tag(path)
             path_line = path.replace('/', '-')
             self.swagger['paths'][path]['options'] = {
                 'summary': '',
@@ -59,6 +66,7 @@ class OptionMethodManager(SwaggerManager):
                     '200': response
                 },
                 'description': '',
+                'tags': [tag],
                 'security': [],
                 # no amazon api-gateway integrations
             }
