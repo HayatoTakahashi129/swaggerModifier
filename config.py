@@ -7,6 +7,7 @@ from common.ErrorHandler import show_error
 
 ENV: str = 'dev'
 SERVICE_NAME: str = None
+OUTPUT_FORMAT = 'yaml'
 
 AWS_ACCESS_KEY: str = None
 AWS_SECRET_ACCESS_KEY: str = None

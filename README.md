@@ -36,7 +36,7 @@ There is a lot of requirements to use.
 
 #### Lambda
 
-* You need to set name of lambda called by API-Gateway as `${serviceName}/${tagName}-${env}`
+* You need to set name of lambda called by API-Gateway as `${serviceName}${tagName}-${env}`
 
 ## Usage
 
@@ -58,6 +58,7 @@ You can also get helps from command line by executing `python main.py -h`.
 * `--awsToken` is IAM Acess Session Token for pulling value from parameter store. You need this parameter if you use MFA
   in IAM.
     * default value is `AWS_SESSION_TOKEN` in System environment variable.
+* `--format` is format for output swagger file. You can choose `json` or `yaml`.
 
 ## Author
 
