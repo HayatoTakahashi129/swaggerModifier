@@ -1,3 +1,4 @@
+import json
 from argparse import ArgumentParser, Namespace
 from collections import OrderedDict
 
@@ -23,7 +24,10 @@ def get_input_yaml(yaml_path: str) -> dict:
 
 def write_swagger(swagger_dict: dict, yaml_path: str):
     with open(yaml_path, 'w') as file:
-        yaml.safe_dump(swagger_dict, file, sort_keys=False)
+        if config.OUTPUT_FORMAT == 'yaml':
+            yaml.safe_dump(swagger_dict, file, sort_keys=False)
+        elif config.OUTPUT_FORMAT == 'json':
+            json.dump(swagger_dict, file, indent=2)
 
 
 def get_options():
@@ -41,6 +45,8 @@ def get_options():
                            help='Set AWS IAM Secret Access Key to retrieve data from SSM parameter store.')
     argparser.add_argument('--awsToken', type=str, default=None,
                            help='Set AWS IAM Access Session Token to retrieve data from SSM parameter store. This is required when you IAM is using MFA.')
+    argparser.add_argument('--format', type=str, default='yaml', choices=['yaml', 'json'],
+                           help='Set output format as JSON or YAML.')
 
     return argparser.parse_args()
 
@@ -53,6 +59,7 @@ def set_value_to_config(args: Namespace, swagger_dict: dict):
     config.AWS_ACCESS_KEY = args.awsAccess
     config.AWS_SECRET_ACCESS_KEY = args.awsSecret
     config.AWS_ACCESS_SESSION_TOKEN = args.awsToken
+    config.OUTPUT_FORMAT = args.format
 
 
 if __name__ == '__main__':

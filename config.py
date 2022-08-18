@@ -5,6 +5,7 @@ import boto3
 
 ENV: str = 'dev'
 SERVICE_NAME: str = None
+OUTPUT_FORMAT = 'yaml'
 
 AWS_ACCESS_KEY: str = None
 AWS_SECRET_ACCESS_KEY: str = None
