@@ -36,7 +36,7 @@ There is a lot of requirements to use.
 
 #### Lambda
 
-* You need to set name of lambda called by API-Gateway as `${serviceName}/${tagName}-${env}`
+* You need to set name of lambda called by API-Gateway as `${serviceName}${tagName}-${env}`
 
 ## Usage
 
