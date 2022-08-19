@@ -23,7 +23,7 @@ class OptionMethodManager(SwaggerManager):
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
-        service_fqdn: str = config.get_parameter('SERVICE_FQDN')
+        service_origin: str = config.get_parameter('SERVICE_ORIGIN')
         return {
             'description': 'common access control allows.',
             'headers': {
@@ -43,7 +43,7 @@ class OptionMethodManager(SwaggerManager):
                     'schema': {
                         'type': 'string'
                     },
-                    'description': f'{service_fqdn}'
+                    'description': f'{service_origin}'
                 }
             }
         }
