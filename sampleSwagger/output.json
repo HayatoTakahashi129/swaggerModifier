@@ -113,7 +113,7 @@
                 "schema": {
                   "type": "string"
                 },
-                "description": "https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com"
+                "description": "http:localhost:3000"
               }
             }
           }
@@ -130,7 +130,7 @@
               "responseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'",
-                "method.response.header.Access-Control-Allow-Origin": "'https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com'"
+                "method.response.header.Access-Control-Allow-Origin": "'http:localhost:3000'"
               },
               "responseTemplates": {
                 "application/json": "{}"
@@ -273,7 +273,7 @@
                 "schema": {
                   "type": "string"
                 },
-                "description": "https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com"
+                "description": "http:localhost:3000"
               }
             }
           }
@@ -290,7 +290,7 @@
               "responseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,Authorization,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
-                "method.response.header.Access-Control-Allow-Origin": "'https://1lcepz19zb.execute-api.ap-northeast-1.amazonaws.com'"
+                "method.response.header.Access-Control-Allow-Origin": "'http:localhost:3000'"
               },
               "responseTemplates": {
                 "application/json": "{}"

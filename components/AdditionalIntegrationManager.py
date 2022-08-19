@@ -41,7 +41,7 @@ class AdditionalIntegrationManager(SwaggerManager):
         headers = default_headers
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
-        service_fqdn = config.get_parameter('SERVICE_FQDN')
+        service_origin = config.get_parameter('SERVICE_ORIGIN')
         return {
             'x-amazon-apigateway-integration': {
                 'responses': {
@@ -52,7 +52,7 @@ class AdditionalIntegrationManager(SwaggerManager):
                                 headers=','.join(headers)),
                             'method.response.header.Access-Control-Allow-Methods': "'{methods}'".format(
                                 methods=','.join(methods)),
-                            'method.response.header.Access-Control-Allow-Origin': f"'{service_fqdn}'"
+                            'method.response.header.Access-Control-Allow-Origin': f"'{service_origin}'"
                         },
                         'responseTemplates': {
                             'application/json': '{}'
