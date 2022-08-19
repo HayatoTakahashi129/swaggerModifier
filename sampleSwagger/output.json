@@ -4,7 +4,7 @@
     "id": "u5r61hsdu0tsj"
   },
   "info": {
-    "title": "todoDemo",
+    "title": "todoDemo2",
     "version": "1.0",
     "description": "This is a sample todo listing project.\nWe can create, edit, delete the todos across all platform including pc and smartphone.\nthis project has authentications so, you can share toso list all your devices.",
     "contact": {
@@ -21,7 +21,9 @@
     "/todos": {
       "get": {
         "summary": "Get todo list",
-        "tags": ["Todo"],
+        "tags": [
+          "Todo"
+        ],
         "responses": {
           "200": {
             "description": "Succed to get todo list.",
@@ -117,7 +119,9 @@
           }
         },
         "description": "",
-        "tags": ["Todo"],
+        "tags": [
+          "Todo"
+        ],
         "security": [],
         "x-amazon-apigateway-integration": {
           "responses": {
@@ -231,7 +235,9 @@
           },
           "description": "Post the necessary fields for the API to create a new todo."
         },
-        "tags": ["Todo"],
+        "tags": [
+          "Todo"
+        ],
         "security": [
           {
             "ID-Token": []
@@ -273,7 +279,9 @@
           }
         },
         "description": "",
-        "tags": ["Todo"],
+        "tags": [
+          "Todo"
+        ],
         "security": [],
         "x-amazon-apigateway-integration": {
           "responses": {
@@ -324,7 +332,10 @@
             "maxLength": 1024
           }
         },
-        "required": ["title", "dueDate"]
+        "required": [
+          "title",
+          "dueDate"
+        ]
       },
       "Message": {
         "title": "Message",
@@ -338,7 +349,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "Id": {
         "title": "Id",
@@ -356,7 +369,9 @@
             "pattern": "[0-9]+"
           }
         },
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
       },
       "400ErrorType": {
         "title": "400-Error-Type",
@@ -368,10 +383,15 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["VALIDATION_ERROR", "BUISINESS_ERROR"]
+            "enum": [
+              "VALIDATION_ERROR",
+              "BUISINESS_ERROR"
+            ]
           }
         },
-        "required": ["type"]
+        "required": [
+          "type"
+        ]
       }
     },
     "securitySchemes": {
@@ -384,7 +404,7 @@
         "x-amazon-apigateway-authorizer": {
           "type": "cognito_user_pools",
           "providerARNs": [
-            "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${AWS::Region}_WKypnxDvl"
+            "arn:aws:cognito-idp:ap-northeast-1:276161490400:userpool/ap-northeast-1_EICVnWjIy"
           ],
           "identityValidationExpression": ".*"
         }
