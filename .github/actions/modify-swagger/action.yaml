@@ -28,14 +28,14 @@ inputs:
 runs:
   using: 'docker'
   env:
-    GITHUB_ACTION_PATH: ${{ github.action_path }}
-    INPUT_FILE_PATH: ${{ inputs.input-file-path }}
-    OUTPUT_FILE_PATH: ${{ inputs.output-file-path }}
-    INPUT_ENV: ${{ inputs.env }}
-    ORIGIN: ${{ inputs.origin }}
-    COGNITO_USERPOOL_ID: ${{ inputs.cognitoPoolId }}
-    SERVICE_NAME: ${{ inputs.service-name }}
-    FORMAT: ${{ inputs.output-file-format }}
+    GITHUB_ACTION_PATH: "${{ github.action_path }}"
+    INPUT_FILE_PATH: "${{ inputs.input-file-path }}"
+    OUTPUT_FILE_PATH: "${{ inputs.output-file-path }}"
+    INPUT_ENV: "${{ inputs.env }}"
+    ORIGIN: "${{ inputs.origin }}"
+    COGNITO_USERPOOL_ID: "${{ inputs.cognitoPoolId }}"
+    SERVICE_NAME: "${{ inputs.service-name }}"
+    FORMAT: "${{ inputs.output-file-format }}"
   image: '$GITHUB_ACTION_PATH/Dockerfile'
   args:
     - -i /github/workspace/$INPUT_FILE_PATH
