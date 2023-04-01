@@ -51,13 +51,8 @@ You can also get helps from command line by executing `python main.py -h`.
 * `-e` or `--env` is environment for creating output swagger file. Default is `dev`.
 * `--serviceName` is service name for creating output swagger file.
     * default value is `info.title` in swagger file.
-* `--awsAccess` is IAM Access Key for pulling value from parameter store.
-    * default value is `AWS_ACCESS_KEY_ID` in System environment variable.
-* `--awsSecret` is IAM Secret Access Key for pulling value from parameter store.
-    * default value is `AWS_SECRET_ACCESS_KEY` in System environment variable.
-* `--awsToken` is IAM Acess Session Token for pulling value from parameter store. You need this parameter if you use MFA
-  in IAM.
-    * default value is `AWS_SESSION_TOKEN` in System environment variable.
+* `--origin` is required for origin domain used in api.ex:`https://sample-api.com`
+* `--cognitoPoolId` is required for cognito authentication. PLEASE set this value from github secrets.
 * `--format` is format for output swagger file. You can choose `json` or `yaml`.
 
 ## Author

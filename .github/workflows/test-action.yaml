@@ -1,0 +1,21 @@
+name: Test Action
+
+on: [ push ]
+
+jobs:
+  test-action-is-successful:
+    name: execute created action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: modify sample swagger
+        uses: HayatoTakahashi129/swaggerModifier@develop
+        with:
+          input-file-path: 'sample/sampleTodo.yaml'
+          output-file-path: 'sample/output/output.yaml'
+          env: dev
+          service-name: sample-todo
+          origin: dev.api.sample.com
+          cognitoPoolId: samplecognitoid2525
+          output-file-format: yaml
