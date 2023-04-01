@@ -27,12 +27,21 @@ inputs:
     default: 'yaml'
 runs:
   using: 'docker'
-  image: '${{ github.action_path }}/Dockerfile'
+  env:
+    GITHUB_ACTION_PATH: ${{ github.action_path }}
+    INPUT_FILE_PATH: ${{ inputs.input-file-path }}
+    OUTPUT_FILE_PATH: ${{ inputs.output-file-path }}
+    INPUT_ENV: ${{ inputs.env }}
+    ORIGIN: ${{ inputs.origin }}
+    COGNITO_USERPOOL_ID: ${{ inputs.cognitoPoolId }}
+    SERVICE_NAME: ${{ inputs.service-name }}
+    FORMAT: ${{ inputs.output-file-format }}
+  image: '$GITHUB_ACTION_PATH/Dockerfile'
   args:
-    - -i /github/workspace/${{ inputs.input-file-path }}
-    - -o /github/workspace/${{ inputs.output-file-path }}
-    - -e ${{ inputs.env }}
-    - --origin ${{ inputs.origin }}
-    - --cognitoPoolId ${{ inputs.cognitoPoolId }}
-    - --serviceName ${{ inputs.service-name }}
-    - --format ${{ inputs.output-file-format }}
+    - -i /github/workspace/$INPUT_FILE_PATH
+    - -o /github/workspace/$OUTPUT_FILE_PATH
+    - -e $INPUT_ENV
+    - --origin $ORIGIN
+    - --cognitoPoolId $COGNITO_USERPOOL_ID
+    - --serviceName $SERVICE_NAME
+    - --format $FORMAT
