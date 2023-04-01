@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 import yaml
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.ErrorHandler import show_error
 from swaggerModifier.components.AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
 from swaggerModifier.components.OptionMethodManager import OptionMethodAnalyzer
@@ -62,19 +62,16 @@ def get_options() -> Namespace:
     argparser.add_argument('--serviceName', type=str, default=None,
                            help='Set service name to create swagger file. default value is retrieve from info.title '
                                 'in swagger file')
-    argparser.add_argument('--awsAccess', type=str, default=None,
-                           help='Set AWS IAM Access Key to retrieve data from SSM parameter store.')
-    argparser.add_argument('--awsSecret', type=str, default=None,
-                           help='Set AWS IAM Secret Access Key to retrieve data from SSM parameter store.')
-    argparser.add_argument('--awsToken', type=str, default=None,
-                           help='Set AWS IAM Access Session Token to retrieve data from SSM parameter store. This is required when you IAM is using MFA.')
+    argparser.add_argument('--origin', type=str, default=None, help='Set service origin domain for api.')
+    argparser.add_argument('--cognitoPoolId', type=str, default=None,
+                           help='Set cognito user pool id for security check in api-gateway.')
     argparser.add_argument('--format', type=str, default='yaml', choices=['yaml', 'json'],
                            help='Set output format as JSON or YAML.')
 
     return argparser.parse_args()
 
 
-def set_value_to_config(args: Namespace, swagger_dict: dict)->None:
+def set_value_to_config(args: Namespace, swagger_dict: dict) -> None:
     """
     set config value from arguments.
     :param args: option get from command
@@ -84,9 +81,8 @@ def set_value_to_config(args: Namespace, swagger_dict: dict)->None:
     config.SERVICE_NAME = args.serviceName
     if config.SERVICE_NAME is None:
         config.SERVICE_NAME = swagger_dict['info']['title']
-    config.AWS_ACCESS_KEY = args.awsAccess
-    config.AWS_SECRET_ACCESS_KEY = args.awsSecret
-    config.AWS_ACCESS_SESSION_TOKEN = args.awsToken
+    config.SERVICE_ORIGIN = args.origin
+    config.COGNITO_USERPOOL_ID = args.cognitoPoolId
     config.OUTPUT_FORMAT = args.format
 
 

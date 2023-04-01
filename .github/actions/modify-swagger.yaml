@@ -1,0 +1,38 @@
+name: 'Modify Swagger'
+author: 'Hayato Takahashi'
+description: 'AWS Api-Gatewayで取り込めるようにOpenAPI（Swagger）を編集する'
+inputs:
+  input-file-path: # id of input
+    description: 'input swagger file path in your repository. ex: `sample/sampleTodo.yaml`'
+    required: true
+  output-file-path:
+    description: 'output swagger file path in your repository. ex: `sample/output.yaml`'
+    required: true
+  env:
+    description: 'environment for creating swagger file\n this appears in lambda name.'
+    required: false
+    default: 'dev'
+  service-name:
+    description: 'Service name for this swagger file. Default value is `info.tile` in swagger file. \nthis appears in lambda name.'
+    required: false
+  origin:
+    description: 'origin domain used in api.ex:`https://sample-api.com`'
+    required: true
+  cognitoPoolId:
+    description: 'cognito pool id for authentication. PLEASE set this value from github secrets.'
+    required: true
+  output-file-format:
+    description: 'file format for output swagger file. You can choose `json` or `yaml`'
+    required: false
+    default: 'yaml'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - -i /github/workspace/${{ inputs.input-file-path }}
+    - -o /github/workspace/${{ inputs.output-file-path }}
+    - -e ${{ inputs.env }}
+    - --origin ${{ inputs.origin }}
+    - --cognitoPoolId ${{ inputs.cognitoPoolId }}
+    - --serviceName ${{ inputs.service-name }}
+    - --format ${{ inputs.output-file-format }}

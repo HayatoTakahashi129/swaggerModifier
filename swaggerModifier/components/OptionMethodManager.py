@@ -1,6 +1,6 @@
 from typing import List
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.SwaggerAnalyzer import SwaggerAnalyzer
 
 DEFAULT_HEADERS = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
@@ -37,7 +37,7 @@ class OptionMethodAnalyzer(SwaggerAnalyzer):
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
-        service_origin: str = config.get_parameter('SERVICE_ORIGIN')
+        service_origin: str = config.SERVICE_ORIGIN
         return {
             'description': 'common access control allows.',
             'headers': {

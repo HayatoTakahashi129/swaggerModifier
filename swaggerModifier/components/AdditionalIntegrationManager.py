@@ -1,6 +1,6 @@
 from typing import List
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.ErrorHandler import show_error
 from swaggerModifier.common.SwaggerAnalyzer import SwaggerAnalyzer
 
@@ -13,7 +13,7 @@ def get_security_integration() -> dict:
     these configurations are for AWS-API-Gateway and AWS-Cognito
     :return:
     """
-    cognito_id = config.get_parameter('COGNITO_USERPOOL_ID2')
+    cognito_id = config.COGNITO_USERPOOL_ID
     return {
         'x-amazon-apigateway-authtype': 'cognito_user_pools',
         'x-amazon-apigateway-authorizer': {
@@ -62,7 +62,7 @@ class AdditionalIntegrationAnalyzer(SwaggerAnalyzer):
         headers = DEFAULT_HEADERS
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
-        service_origin = config.get_parameter('SERVICE_ORIGIN')
+        service_origin = config.SERVICE_ORIGIN
         return {
             'x-amazon-apigateway-integration': {
                 'responses': {
@@ -133,8 +133,8 @@ class AdditionalIntegrationAnalyzer(SwaggerAnalyzer):
         create integration information from security schema.
         this enables to combine AWS-Cognito to AWS-API-GATEWAY.
         """
-        if security_schema_name not in self.swagger['components']['securitySchemas']:
-            show_error(f'Please set {security_schema_name} in `components.securitySchemas` in input swagger file.')
+        if security_schema_name not in self.swagger['components']['securitySchemes']:
+            show_error(f'Please set {security_schema_name} in `components.securitySchemes` in input swagger file.')
         security_integration: dict = get_security_integration()
         self.swagger['components']['securitySchemes'][security_schema_name].update(security_integration)
 
@@ -144,8 +144,8 @@ class AdditionalIntegrationAnalyzer(SwaggerAnalyzer):
         so, you can automatically import to api gateway.
         :return:
         """
-        if 'securitySchemas' in self.swagger['components']:
-            if security_schema_name in self.swagger['components']['securitySchemas']:
+        if 'securitySchemes' in self.swagger['components']:
+            if security_schema_name in self.swagger['components']['securitySchemes']:
                 self.__add_security_integration()
 
         path_list: List[str] = self.get_all_paths()
