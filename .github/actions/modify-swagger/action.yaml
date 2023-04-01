@@ -18,7 +18,7 @@ inputs:
   origin:
     description: 'origin domain used in api.ex:`https://sample-api.com`'
     required: true
-  cognitoPoolId:
+  cognito-pool-id:
     description: 'cognito pool id for authentication. PLEASE set this value from github secrets.'
     required: true
   output-file-format:
@@ -29,10 +29,10 @@ runs:
   using: 'docker'
   image: "${GITHUB_ACTION_PATH}/Dockerfile"
   args:
-    - "-i /github/workspace/${INPUT_INPUT-FILE-PATH}"
-    - "-o /github/workspace/${INPUT_OUTPUT-FILE-PATH}"
-    - "-e ${INPUT_ENV}"
-    - "--origin ${INPUT_ORIGIN}"
-    - "--cognitoPoolId ${INPUT_COGNITOUSERPOOLID}"
-    - "--serviceName ${INPUT_SERVICE-NAME}"
-    - "--format ${INPUT_FORMAT}"
+    - "-i /github/workspace/${{ inputs.input-file-path }}"
+    - "-o /github/workspace/${{ inputs.output-file-path }}"
+    - "-e ${{ inputs.env }}"
+    - "--origin ${{ inputs.origin }}"
+    - "--cognitoPoolId ${{ inputs.cognito-pool-id }}"
+    - "--serviceName ${{ inputs.service-name }}"
+    - "--format ${{ input.output-file-format }}"
