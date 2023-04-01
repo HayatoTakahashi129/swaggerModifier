@@ -32,7 +32,7 @@ runs:
   using: 'composite'
   steps:
     - name: 'modify openapi swagger file'
-      uses: ./.github/actions/modify-swagger.yaml
+      uses: ./.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
