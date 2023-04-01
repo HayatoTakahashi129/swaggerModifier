@@ -1,14 +1,15 @@
 import json
+import os
 import sys
 from argparse import ArgumentParser, Namespace
 from collections import OrderedDict
 
 import yaml
 
-from swaggerModifier.configs import config
 from swaggerModifier.common.ErrorHandler import show_error
 from swaggerModifier.components.AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
 from swaggerModifier.components.OptionMethodManager import OptionMethodAnalyzer
+from swaggerModifier.configs import config
 
 
 def get_input_yaml(yaml_path: str) -> dict:
@@ -42,6 +43,8 @@ def write_swagger(swagger_dict: dict, yaml_path: str) -> None:
     :param swagger_dict: swagger object to write
     :param yaml_path: output yaml file path
     """
+    yaml_path_list = yaml_path.split('/')
+    os.makedirs(os.path.join(*yaml_path_list[:-1]), exist_ok=True)
     with open(yaml_path, 'w') as file:
         if config.OUTPUT_FORMAT == 'yaml':
             yaml.safe_dump(swagger_dict, file, sort_keys=False)
