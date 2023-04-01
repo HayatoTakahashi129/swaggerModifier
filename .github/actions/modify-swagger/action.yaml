@@ -31,8 +31,8 @@ runs:
   args:
     - "-i /github/workspace/${INPUT_INPUT-FILE-PATH}"
     - "-o /github/workspace/${INPUT_OUTPUT-FILE-PATH}"
-    - "-e ${env.INPUT_ENV}"
-    - "--origin ${env.INPUT_ORIGIN}"
-    - "--cognitoPoolId ${env.INPUT_COGNITOUSERPOOLID}"
-    - "--serviceName ${env.INPUT_SERVICE-NAME}"
-    - "--format ${env.INPUT_FORMAT}"
+    - "-e ${INPUT_ENV}"
+    - "--origin ${INPUT_ORIGIN}"
+    - "--cognitoPoolId ${INPUT_COGNITOUSERPOOLID}"
+    - "--serviceName ${INPUT_SERVICE-NAME}"
+    - "--format ${INPUT_FORMAT}"
