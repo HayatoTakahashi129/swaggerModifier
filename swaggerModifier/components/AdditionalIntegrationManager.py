@@ -1,6 +1,6 @@
 from typing import List
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.ErrorHandler import show_error
 from swaggerModifier.common.SwaggerAnalyzer import SwaggerAnalyzer
 

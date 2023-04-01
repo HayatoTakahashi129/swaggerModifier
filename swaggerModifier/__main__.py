@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 import yaml
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.ErrorHandler import show_error
 from swaggerModifier.components.AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
 from swaggerModifier.components.OptionMethodManager import OptionMethodAnalyzer

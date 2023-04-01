@@ -1,2 +1,2 @@
-from AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
-from OptionMethodManager import OptionMethodAnalyzer
+from .AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
+from .OptionMethodManager import OptionMethodAnalyzer

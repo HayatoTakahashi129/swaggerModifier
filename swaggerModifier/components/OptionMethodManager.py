@@ -1,6 +1,6 @@
 from typing import List
 
-from configs import config
+from swaggerModifier.configs import config
 from swaggerModifier.common.SwaggerAnalyzer import SwaggerAnalyzer
 
 DEFAULT_HEADERS = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
