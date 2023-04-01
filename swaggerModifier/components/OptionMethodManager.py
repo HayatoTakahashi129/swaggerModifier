@@ -1,25 +1,39 @@
 from typing import List
 
-import config
-from common.SwaggerManager import SwaggerManager
+from configs import config
+from swaggerModifier.common.SwaggerAnalyzer import SwaggerAnalyzer
 
-default_headers = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
+DEFAULT_HEADERS = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
 
 
-class OptionMethodManager(SwaggerManager):
+class OptionMethodAnalyzer(SwaggerAnalyzer):
+    """
+    Analyze swagger file to add options method in each api.
+    """
+
     def __init__(self, swagger: dict):
         super().__init__(swagger)
         self.swagger: dict = swagger
 
     def __get_all_methods(self, path) -> List[str]:
+        """
+        get all allowed methods in target api.
+        :param path: target api path.
+        :return: allowed api methods
+        """
         methods: List[str] = self.get_all_contained_service_method(path)
         methods.append('options')
         methods = [method.upper() for method in methods]
         return methods
 
-    def __get_response(self, path: str) -> dict:
+    def __create_response(self, path: str) -> dict:
+        """
+        create options method response to integrate.
+        :param path: target api path.
+        :return: options method response information (dict format)
+        """
         methods: List[str] = self.__get_all_methods(path)
-        headers: List[str] = default_headers
+        headers: List[str] = DEFAULT_HEADERS
         if self.has_security(path, self.get_all_contained_service_method(path)[0]):
             headers.append('Authorization')
 
@@ -49,14 +63,23 @@ class OptionMethodManager(SwaggerManager):
         }
 
     def __get_tag(self, path: str) -> str:
+        """
+        get tag information from input swagger file.
+        :param path: target api path
+        :return: tag value
+        """
         first_method: str = self.get_all_contained_service_method(path)[0]
         first_tag: str = self.get_tags(path, first_method)[0]
         return first_tag
 
     def add_option_methods(self) -> dict:
+        """
+        add option method to api with integration information that automatically response by api-gateway.
+        :return: swagger file dict.
+        """
         path_list: List[str] = self.get_all_paths()
         for path in path_list:
-            response: dict = self.__get_response(path)
+            response: dict = self.__create_response(path)
             tag: str = self.__get_tag(path)
             path_line = path.replace('/', '-')
             self.swagger['paths'][path]['options'] = {

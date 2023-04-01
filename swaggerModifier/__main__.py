@@ -1,18 +1,22 @@
 import json
 import sys
-
 from argparse import ArgumentParser, Namespace
 from collections import OrderedDict
 
 import yaml
 
-import config
-from common.ErrorHandler import show_error
-from components.AdditionalIntegrationManager import AdditionalIntegrationManager
-from components.OptionMethodManager import OptionMethodManager
+from configs import config
+from swaggerModifier.common.ErrorHandler import show_error
+from swaggerModifier.components.AdditionalIntegrationManager import AdditionalIntegrationAnalyzer
+from swaggerModifier.components.OptionMethodManager import OptionMethodAnalyzer
 
 
 def get_input_yaml(yaml_path: str) -> dict:
+    """
+    parse yaml file
+    :param yaml_path: input path for open api yaml file.
+    :return: parsed open-api information (dict format)
+    """
     yaml.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
                          lambda loader, node: OrderedDict(loader.construct_pairs(node)))
 
@@ -32,7 +36,12 @@ def get_input_yaml(yaml_path: str) -> dict:
     return swagger_dict
 
 
-def write_swagger(swagger_dict: dict, yaml_path: str):
+def write_swagger(swagger_dict: dict, yaml_path: str) -> None:
+    """
+    create or overwrite yaml file.
+    :param swagger_dict: swagger object to write
+    :param yaml_path: output yaml file path
+    """
     with open(yaml_path, 'w') as file:
         if config.OUTPUT_FORMAT == 'yaml':
             yaml.safe_dump(swagger_dict, file, sort_keys=False)
@@ -40,7 +49,11 @@ def write_swagger(swagger_dict: dict, yaml_path: str):
             json.dump(swagger_dict, file, indent=2)
 
 
-def get_options():
+def get_options() -> Namespace:
+    """
+    parse options in command.
+    :return: parsed argument result.
+    """
     argparser = ArgumentParser()
     argparser.add_argument('-i', '--input', type=str, required=True, help='Set input swagger file path to create.',
                            default=None)
@@ -61,7 +74,12 @@ def get_options():
     return argparser.parse_args()
 
 
-def set_value_to_config(args: Namespace, swagger_dict: dict):
+def set_value_to_config(args: Namespace, swagger_dict: dict)->None:
+    """
+    set config value from arguments.
+    :param args: option get from command
+    :param swagger_dict: input swagger file parsed object
+    """
     config.ENV = args.env
     config.SERVICE_NAME = args.serviceName
     if config.SERVICE_NAME is None:
@@ -77,9 +95,9 @@ if __name__ == '__main__':
     swagger = get_input_yaml(args.input)
     set_value_to_config(args, swagger)
 
-    optionManager = OptionMethodManager(swagger)
+    optionManager = OptionMethodAnalyzer(swagger)
     swagger = optionManager.add_option_methods()
-    additionalIntegrationManager = AdditionalIntegrationManager(swagger)
+    additionalIntegrationManager = AdditionalIntegrationAnalyzer(swagger)
     swagger = additionalIntegrationManager.add_amazon_apigateway_integration()
     write_swagger(swagger, args.output)
     print('Succeed to Create output swagger file.')

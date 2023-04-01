@@ -3,7 +3,7 @@ from typing import Dict
 import boto3
 from botocore.exceptions import ClientError
 
-from common.ErrorHandler import show_error
+from swaggerModifier.common.ErrorHandler import show_error
 
 ENV: str = 'dev'
 SERVICE_NAME: str = None
