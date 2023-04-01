@@ -27,7 +27,7 @@ inputs:
     default: 'yaml'
 runs:
   using: 'docker'
-  image: "${{ env.GITHUB_ACTION_PATH }}/Dockerfile"
+  image: "${GITHUB_ACTION_PATH}/Dockerfile"
   args:
     - "-i /github/workspace/${{ env.INPUT_INPUT-FILE-PATH }}"
     - "-o /github/workspace/${{ env.INPUT_OUTPUT-FILE-PATH }}"
