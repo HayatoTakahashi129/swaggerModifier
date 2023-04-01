@@ -21,8 +21,8 @@ inputs:
   origin:
     description: 'origin domain used in api.ex:`https://sample-api.com`'
     required: true
-  cognito-pool-id:
-    description: 'cognito pool id for authentication. PLEASE set this value from github secrets.'
+  cognito-user-pool-id:
+    description: 'cognito user pool id for authentication. PLEASE set this value from github secrets.'
     required: true
   output-file-format:
     description: 'file format for output swagger file. You can choose `json` or `yaml`'
@@ -39,7 +39,7 @@ runs:
         env: ${{ inputs.env }}
         service-name: ${{ inputs.service-name }}
         origin: ${{ inputs.origin }}
-        cognito-pool-id: ${{ inputs.cognito-pool-id }}
+        cognito-user-pool-id: ${{ inputs.cognito-user-pool-id }}
         output-file-format: ${{ inputs.output-file-format }}
     - name: 'commit modified swagger file to repository'
       uses: stefanzweifel/git-auto-commit-action@v4
