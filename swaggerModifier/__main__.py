@@ -6,10 +6,10 @@ from collections import OrderedDict
 
 import yaml
 
-import config
-from common.ErrorHandler import show_error
-from components.AdditionalIntegrationManager import AdditionalIntegrationManager
-from components.OptionMethodManager import OptionMethodManager
+from configs import config
+from swaggerModifier.common.ErrorHandler import show_error
+from swaggerModifier.components.AdditionalIntegrationManager import AdditionalIntegrationManager
+from swaggerModifier.components.OptionMethodManager import OptionMethodManager
 
 
 def get_input_yaml(yaml_path: str) -> dict:

@@ -1,7 +1,7 @@
 from typing import List
 
-import config
-from common.SwaggerManager import SwaggerManager
+from configs import config
+from swaggerModifier.common.SwaggerManager import SwaggerManager
 
 default_headers = ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token', 'X-Amz-User-Agent']
 

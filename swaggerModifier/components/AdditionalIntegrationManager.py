@@ -1,8 +1,8 @@
 from typing import List
 
-import config
-from common.ErrorHandler import show_error
-from common.SwaggerManager import SwaggerManager
+from configs import config
+from swaggerModifier.common.ErrorHandler import show_error
+from swaggerModifier.common.SwaggerManager import SwaggerManager
 
 security_schema_name = 'ID-Token'
 

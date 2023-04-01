@@ -1,8 +1,8 @@
 from typing import List
 
-from common.ErrorHandler import show_error
+from swaggerModifier.common.ErrorHandler import show_error
 
-service_methods = ['get', 'post', 'put', 'delete', 'patch']
+SERVICE_METHODS = ['get', 'post', 'put', 'delete', 'patch']
 
 
 class SwaggerManager:
@@ -11,7 +11,7 @@ class SwaggerManager:
 
     def get_all_contained_service_method(self, path: str) -> List[str]:
         contained_methods: List[str] = []
-        for method in service_methods:
+        for method in SERVICE_METHODS:
             if method in self.swagger['paths'][path]:
                 contained_methods.append(method)
         if len(contained_methods) == 0:
