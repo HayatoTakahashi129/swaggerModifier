@@ -15,7 +15,7 @@ jobs:
           input-file-path: 'sample/sampleTodo.yaml'
           output-file-path: 'sample/output/output.yaml'
           env: 'dev'
-          service-name: 'sample-'todo
+          service-name: 'sample-todo'
           origin: 'https://dev.api.sample.com'
           cognito-user-pool-id: 'samplecognitoid2525'
           output-file-format: 'yaml'
