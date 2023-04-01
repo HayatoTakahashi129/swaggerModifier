@@ -44,6 +44,8 @@ def write_swagger(swagger_dict: dict, yaml_path: str) -> None:
     :param yaml_path: output yaml file path
     """
     yaml_path_list = yaml_path.split('/')
+    if yaml_path.startswith('/'):
+        yaml_path_list.insert(0, '/')
     os.makedirs(os.path.join(*yaml_path_list[:-1]), exist_ok=True)
     with open(yaml_path, 'w') as file:
         if config.OUTPUT_FORMAT == 'yaml':
