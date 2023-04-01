@@ -29,10 +29,10 @@ runs:
   using: 'docker'
   image: "${GITHUB_ACTION_PATH}/Dockerfile"
   args:
-    - "-i /github/workspace/${{ env.INPUT_INPUT-FILE-PATH }}"
-    - "-o /github/workspace/${{ env.INPUT_OUTPUT-FILE-PATH }}"
-    - "-e ${{ env.INPUT_ENV }}"
-    - "--origin ${{ env.INPUT_ORIGIN }}"
-    - "--cognitoPoolId ${{ env.INPUT_COGNITOUSERPOOLID }}"
-    - "--serviceName ${{ env.INPUT_SERVICE-NAME }}"
-    - "--format ${{ env.INPUT_FORMAT }}"
+    - "-i /github/workspace/${INPUT_INPUT-FILE-PATH}"
+    - "-o /github/workspace/${INPUT_OUTPUT-FILE-PATH}"
+    - "-e ${INPUT_ENV}"
+    - "--origin ${INPUT_ORIGIN}"
+    - "--cognitoPoolId ${INPUT_COGNITOUSERPOOLID}"
+    - "--serviceName ${INPUT_SERVICE-NAME}"
+    - "--format ${INPUT_FORMAT}"
