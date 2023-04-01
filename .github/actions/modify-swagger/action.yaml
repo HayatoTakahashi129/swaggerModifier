@@ -18,8 +18,8 @@ inputs:
   origin:
     description: 'origin domain used in api.ex:`https://sample-api.com`'
     required: true
-  cognito-pool-id:
-    description: 'cognito pool id for authentication. PLEASE set this value from github secrets.'
+  cognito-user-pool-id:
+    description: 'cognito user pool id for authentication. PLEASE set this value from github secrets.'
     required: true
   output-file-format:
     description: 'file format for output swagger file. You can choose `json` or `yaml`'
@@ -33,6 +33,6 @@ runs:
     - "-o /github/workspace/${{ inputs.output-file-path }}"
     - "-e ${{ inputs.env }}"
     - "--origin ${{ inputs.origin }}"
-    - "--cognitoPoolId ${{ inputs.cognito-pool-id }}"
+    - "--cognitoPoolId ${{ inputs.cognito-user-pool-id }}"
     - "--serviceName ${{ inputs.service-name }}"
     - "--format ${{ inputs.output-file-format }}"
