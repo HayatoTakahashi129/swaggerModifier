@@ -17,5 +17,5 @@ jobs:
           env: dev
           service-name: sample-todo
           origin: dev.api.sample.com
-          cognitoPoolId: samplecognitoid2525
+          cognito-user-pool-id: samplecognitoid2525
           output-file-format: yaml
