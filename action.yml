@@ -35,7 +35,7 @@ runs:
       run: cd $GITHUB_ACTION_PATH
       shell: bash
     - name: 'modify openapi swagger file'
-      uses: .github/actions/modify-swagger
+      uses: ./.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
