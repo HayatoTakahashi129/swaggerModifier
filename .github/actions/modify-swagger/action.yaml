@@ -28,7 +28,7 @@ inputs:
 runs:
   using: 'docker'
   image: "../../../Dockerfile"
-  entrypoint: "sh -c"
+#  entrypoint: "sh -c"
   args:
     - "cd / tree -a -L 5"
 #    - "-i"
