@@ -42,7 +42,7 @@ runs:
         repository: HayatoTakahashi129/swaggerModifier
         ref: ${{ inputs.github_ref }}
     - name: 'modify openapi swagger file'
-      uses: ../../swaggerModifier/swaggerModifier/.github/actions/modify-swagger
+      uses: /home/runner/work/swaggerModifier/swaggerModifier/.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
