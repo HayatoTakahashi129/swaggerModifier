@@ -36,11 +36,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: move action file to executable path
-      run: mv ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}/.github/actions/modify-swagger/action.yaml ./../../_actions/HayatoTakahashi129/swaggerModifier/action.yaml
+    - name: move all files to executable path
+      run: mv ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}/* ./../../_actions/HayatoTakahashi129/swaggerModifier/
       shell: bash
     - name: "modify openapi swagger file"
-      uses: ./../../_actions/HayatoTakahashi129/swaggerModifier/
+      uses: ./../../_actions/HayatoTakahashi129/swaggerModifier/.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
