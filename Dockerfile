@@ -8,4 +8,5 @@ ENV PATH "${PATH}:/bin"
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python","swaggerModifier/__main__.py"]
+CMD ["/bin/bash"]
+# ENTRYPOINT ["python","swaggerModifier/__main__.py"]
