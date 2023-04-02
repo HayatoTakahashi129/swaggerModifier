@@ -25,9 +25,14 @@ inputs:
     description: 'file format for output swagger file. You can choose `json` or `yaml`'
     required: false
     default: 'yaml'
+outputs:
+  result:
+    description: 'result'
 runs:
   using: 'docker'
   image: "../../../Dockerfile"
+
+
 #  entrypoint: "sh -c"
 #  args:
 #    - "cd / tree -a -L 5"
