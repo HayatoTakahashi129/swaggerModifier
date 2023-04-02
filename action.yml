@@ -36,8 +36,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: move all files to executable path
-      run: mv ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}/* ./../../_actions/HayatoTakahashi129/swaggerModifier/
+    - name: copy all files to executable path
+      run: cp -a ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}/. ./../../_actions/HayatoTakahashi129/swaggerModifier/
       shell: bash
     - name: "modify openapi swagger file"
       uses: ./../../_actions/HayatoTakahashi129/swaggerModifier/.github/actions/modify-swagger
