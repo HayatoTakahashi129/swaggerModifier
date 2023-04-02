@@ -40,6 +40,7 @@ runs:
       run: cp -a ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}/. ./../../_actions/HayatoTakahashi129/swaggerModifier/
       shell: bash
     - name: "modify openapi swagger file"
+      id: modify
       uses: ./../../_actions/HayatoTakahashi129/swaggerModifier/.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
@@ -49,6 +50,9 @@ runs:
         origin: ${{ inputs.origin }}
         cognito-user-pool-id: ${{ inputs.cognito-user-pool-id }}
         output-file-format: ${{ inputs.output-file-format }}
+    - name: test output
+      run: echo "result was ${{ steps.modify.result }}"
+      shell: bash
     - name: "commit modified swagger file to repository"
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
