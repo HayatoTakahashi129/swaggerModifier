@@ -51,7 +51,7 @@ runs:
         cognito-user-pool-id: ${{ inputs.cognito-user-pool-id }}
         output-file-format: ${{ inputs.output-file-format }}
     - name: test output
-      run: echo "result was ${{ steps.modify.result }}"
+      run: echo "result was ${{ steps.modify.outputs.result }}"
       shell: bash
     - name: "commit modified swagger file to repository"
       uses: stefanzweifel/git-auto-commit-action@v4
