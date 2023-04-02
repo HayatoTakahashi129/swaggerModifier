@@ -25,9 +25,12 @@ inputs:
     description: 'file format for output swagger file. You can choose `json` or `yaml`'
     required: false
     default: 'yaml'
+  github-path:
+    description: 'path for action'
+    required: true
 runs:
   using: 'docker'
-  image: "../../../Dockerfile"
+  image: "${{ inputs.github-path }}/Dockerfile"
   args:
     - "-i"
     - "/github/workspace/${{ inputs.input-file-path }}"
