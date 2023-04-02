@@ -4,6 +4,7 @@ MAINTAINER HayatoTakahashi
 COPY ./ ./
 
 ENV PYTHONPATH "${PYTHONPATH}:/"
+ENV PATH "${PATH}:/bin"
 
 RUN pip install -r requirements.txt
 
