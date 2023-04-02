@@ -1,6 +1,6 @@
 name: Test Action
 
-on: [ push ]
+on: [push]
 
 jobs:
   test-action-is-successful:
@@ -10,12 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: modify sample swagger
-        uses: HayatoTakahashi129/swaggerModifier@${{ github.action_ref }}
+        uses: HayatoTakahashi129/swaggerModifier@develop
         with:
-          input-file-path: 'sample/sampleTodo.yaml'
-          output-file-path: 'sample/output/output.yaml'
-          env: 'dev'
-          service-name: 'sample-todo'
-          origin: 'https://dev.api.sample.com'
-          cognito-user-pool-id: 'samplecognitoid2525'
-          output-file-format: 'yaml'
+          input-file-path: "sample/sampleTodo.yaml"
+          output-file-path: "sample/output/output.yaml"
+          env: "dev"
+          service-name: "sample-todo"
+          origin: "https://dev.api.sample.com"
+          cognito-user-pool-id: "samplecognitoid2525"
+          output-file-format: "yaml"
