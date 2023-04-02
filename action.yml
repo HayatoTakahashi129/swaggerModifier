@@ -28,14 +28,21 @@ inputs:
     description: 'file format for output swagger file. You can choose `json` or `yaml`'
     required: false
     default: 'yaml'
+  github_ref:
+    description: 'this use as variable in action. DO NOT SET NEW VARIABLE.'
+    required: false
+    default: ${{ github.action_ref }}
+
 runs:
   using: 'composite'
   steps:
-    - name: move to action path
-      run: cd $GITHUB_ACTION_PATH
-      shell: bash
+    - name: checkout action repository
+      uses: actions/checkout@v3
+      with:
+        repository: HayatoTakahashi129/swaggerModifier
+        ref: ${{ inputs.github_ref }}
     - name: 'modify openapi swagger file'
-      uses: ./.github/actions/modify-swagger
+      uses: ../../swaggerModifier/swaggerModifier/.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
