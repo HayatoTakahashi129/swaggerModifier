@@ -31,6 +31,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: move to action path
+      run: cd $GITHUB_ACTION_PATH
+      shell: bash
     - name: 'modify openapi swagger file'
       uses: ${{ github.action_path }}/.github/actions/modify-swagger
       with:
