@@ -33,6 +33,9 @@ runs:
   steps:
     - name: Checkout Branch
       uses: actions/checkout@v3
+      with:
+        repository: 'HayatoTakahashi129/swaggerModifier'
+        ref: ${{ github.action_ref }}
     - name: 'modify openapi swagger file'
       uses: ./.github/actions/modify-swagger
       with:
