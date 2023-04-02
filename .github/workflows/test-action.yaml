@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: modify sample swagger
-        uses: HayatoTakahashi129/swaggerModifier@develop
+        uses: HayatoTakahashi129/swaggerModifier@${{ github.action_ref }}
         with:
           input-file-path: 'sample/sampleTodo.yaml'
           output-file-path: 'sample/output/output.yaml'
