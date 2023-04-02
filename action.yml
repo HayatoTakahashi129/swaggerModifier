@@ -43,7 +43,6 @@ runs:
         origin: ${{ inputs.origin }}
         cognito-user-pool-id: ${{ inputs.cognito-user-pool-id }}
         output-file-format: ${{ inputs.output-file-format }}
-        github-path: ${{ github.action_path }}
     - name: 'commit modified swagger file to repository'
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
