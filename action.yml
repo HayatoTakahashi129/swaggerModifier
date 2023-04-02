@@ -31,6 +31,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Checkout Branch
+      uses: actions/checkout@v3
     - name: 'modify openapi swagger file'
       uses: ./.github/actions/modify-swagger
       with:
