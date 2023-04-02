@@ -31,12 +31,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v3
-      with:
-        repository: 'HayatoTakahashi129/swaggerModifier'
-        ref: ${{ github.action_ref }}
+    #    - name: Checkout Branch
+    #      uses: actions/checkout@v3
+    #      with:
+    #        repository: 'HayatoTakahashi129/swaggerModifier'
+    #        ref: ${{ github.action_ref }}
     - name: 'modify openapi swagger file'
+      working-directory: ${{ github.action_path }}
       uses: ./.github/actions/modify-swagger
       with:
         input-file-path: ${{ inputs.input-file-path }}
