@@ -1,48 +1,46 @@
-name: 'Swagger Modifier'
-author: 'Hayato Takahashi'
-description: 'AWS Api-Gatewayで取り込めるようにOpenAPI（Swagger）を編集する'
+name: "Swagger Modifier"
+author: "Hayato Takahashi"
+description: "AWS Api-Gatewayで取り込めるようにOpenAPI（Swagger）を編集する"
 branding:
   icon: plus
   color: orange
 inputs:
   input-file-path: # id of input
-    description: 'input swagger file path in your repository. ex: `sample/sampleTodo.yaml`'
+    description: "input swagger file path in your repository. ex: `sample/sampleTodo.yaml`"
     required: true
   output-file-path:
-    description: 'output swagger file path in your repository. ex: `sample/output.yaml`'
+    description: "output swagger file path in your repository. ex: `sample/output.yaml`"
     required: true
   env:
     description: 'environment for creating swagger file\n this appears in lambda name.'
     required: false
-    default: 'dev'
+    default: "dev"
   service-name:
     description: 'Service name for this swagger file. Default value is `info.tile` in swagger file. \nthis appears in lambda name.'
     required: false
   origin:
-    description: 'origin domain used in api.ex:`https://sample-api.com`'
+    description: "origin domain used in api.ex:`https://sample-api.com`"
     required: true
   cognito-user-pool-id:
-    description: 'cognito user pool id for authentication. PLEASE set this value from github secrets.'
+    description: "cognito user pool id for authentication. PLEASE set this value from github secrets."
     required: true
   output-file-format:
-    description: 'file format for output swagger file. You can choose `json` or `yaml`'
+    description: "file format for output swagger file. You can choose `json` or `yaml`"
     required: false
-    default: 'yaml'
+    default: "yaml"
   github_ref:
-    description: 'this use as variable in action. DO NOT SET NEW VARIABLE.'
+    description: "DO NOT SPECIFY THIS VALUE. use as variable inside script."
     required: false
     default: ${{ github.action_ref }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    - name: checkout action repository
-      uses: actions/checkout@v3
-      with:
-        repository: HayatoTakahashi129/swaggerModifier
-        ref: ${{ inputs.github_ref }}
-    - name: 'modify openapi swagger file'
-      uses: ./.github/actions/modify-swagger
+    - name: move action file to executable path
+      run: mv ./../../_actions/HayatoTakahashi129/swaggerModifier/${{ inputs.github_ref }}.github/actions/modify-swagger/action.yaml ./../../_actions/HayatoTakahashi129/swaggerModifier/action.yaml
+      shell: bash
+    - name: "modify openapi swagger file"
+      uses: ./../../_actions/HayatoTakahashi129/swaggerModifier/
       with:
         input-file-path: ${{ inputs.input-file-path }}
         output-file-path: ${{ inputs.output-file-path }}
@@ -51,8 +49,7 @@ runs:
         origin: ${{ inputs.origin }}
         cognito-user-pool-id: ${{ inputs.cognito-user-pool-id }}
         output-file-format: ${{ inputs.output-file-format }}
-    - name: 'commit modified swagger file to repository'
+    - name: "commit modified swagger file to repository"
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: 'Modify Swagger by github action'
-
+        commit_message: "Modify Swagger by github action"
