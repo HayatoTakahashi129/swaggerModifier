@@ -32,7 +32,6 @@ runs:
   using: 'docker'
   image: "../../../Dockerfile"
   args:
-    - "cd / tree -a -L 5"
     - "-i"
     - "/github/workspace/${{ inputs.input-file-path }}"
     - "-o"
