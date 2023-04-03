@@ -31,22 +31,19 @@ outputs:
 runs:
   using: 'docker'
   image: "../../../Dockerfile"
-
-
-#  entrypoint: "sh -c"
-#  args:
-#    - "cd / tree -a -L 5"
-#    - "-i"
-#    - "/github/workspace/${{ inputs.input-file-path }}"
-#    - "-o"
-#    - "/github/workspace/${{ inputs.output-file-path }}"
-#    - "-e"
-#    - "${{ inputs.env }}"
-#    - "--origin"
-#    - "${{ inputs.origin }}"
-#    - "--cognitoPoolId"
-#    - "${{ inputs.cognito-user-pool-id }}"
-#    - "--serviceName"
-#    - "${{ inputs.service-name }}"
-#    - "--format"
-#    - "${{ inputs.output-file-format }}"
+  args:
+    - "cd / tree -a -L 5"
+    - "-i"
+    - "/github/workspace/${{ inputs.input-file-path }}"
+    - "-o"
+    - "/github/workspace/${{ inputs.output-file-path }}"
+    - "-e"
+    - "${{ inputs.env }}"
+    - "--origin"
+    - "${{ inputs.origin }}"
+    - "--cognitoPoolId"
+    - "${{ inputs.cognito-user-pool-id }}"
+    - "--serviceName"
+    - "${{ inputs.service-name }}"
+    - "--format"
+    - "${{ inputs.output-file-format }}"
